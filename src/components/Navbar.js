@@ -1,8 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
+import Switch from '@material-ui/core/Switch';
 
 export default function Navbar(props) {
+
+    const [state, setState] = React.useState({
+        checkedB: false,
+    });
+
+    const handleChange = (event) => {
+        setState({ ...state, [event.target.name]: event.target.checked });
+        console.log(state.checkedB);
+        if(state.checkedB === false){
+            document.body.style.backgroundColor = '#042743';
+        }
+        else{
+            document.body.style.backgroundColor = 'white';
+        }
+    };
+
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
             <div className="container-fluid">
@@ -19,8 +36,14 @@ export default function Navbar(props) {
                             <Link className="nav-link" to="/about">{props.aboutText}</Link>
                         </li>
                     </ul>
-                    <div className={`form-check form-switch text-${props.mode==='light'?'dark':'light'}`}>
-                        <input className="form-check-input" onClick={props.toggleMode} type="checkbox" id="flexSwitchCheckDefault"/>
+                    <div className={`form-check form-switch text-${props.mode === 'light' ? 'dark' : 'light'}`}>
+                        <Switch
+                            checked={state.checkedB}
+                            onChange={handleChange}
+                            name="checkedB"
+                            color="primary"
+                            id="flexSwitchCheckDefault"
+                        />
                         <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable DarkMode</label>
                     </div>
                 </div>
@@ -37,4 +60,4 @@ Navbar.propTypes = {
 Navbar.defaultProps = {
     title: 'Set title here',
     aboutText: 'About'
-  };
+};
